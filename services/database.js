@@ -97,7 +97,7 @@ const updateSkills = async (updated, id) => {
     }
 
     for (var i = 0; i < updated.length; i++) {
-        await addSkill(currentskills[i],id);
+        await addSkill(updated[i],id);
     }
 }
 
@@ -109,6 +109,19 @@ const getSkills = async (id) => {
         .catch(err => console.log(err));
 }
 
+const updateUser = async (args) => {
+    const value = partialUpdate(args);
+    if (value[0].length>1){
+        const query = `UPDATE users SET(${value[1]}) = (${value[2]}) WHERE email='${args.email}'`;
+        const values = value[0];
+        await db
+            .none(query,values)
+            .then(res=>res)
+            .catch(err => console.log(err));
+    }
+
+}
+
 exports.partialUpdate = partialUpdate;
 exports.addSkill = addSkill;
 exports.getID = getID;
@@ -116,3 +129,4 @@ exports.getskillID = getskillID;
 exports.checkUser = checkUser;
 exports.updateSkills = updateSkills;
 exports.getSkills = getSkills;
+exports.updateUser = updateUser;

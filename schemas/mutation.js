@@ -2,7 +2,7 @@ const graphql = require("graphql");
 const { db } = require("../database/pgAdaptor");
 const { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt, GraphQLInputObjectType} = graphql;
 const { skillType, userType } = require("./types");
-const { partialUpdate, getID, addSkill, updateSkills ,checkUser } = require("../services/database");
+const { partialUpdate, getID, addSkill, updateSkills ,checkUser, updateUser, getSkills } = require("../services/database");
 
 const skillInput = new GraphQLInputObjectType({
     name: "skillinput",
@@ -120,30 +120,20 @@ const RootMutation = new GraphQLObjectType({
             async resolve(parentValue, args) {
                 const createdUser = await checkUser(args.email);
                 if (createdUser === true){
-                    const value = partialUpdate(args);
-                    const query = `UPDATE users SET(${value[1]}) = (${value[2]}) WHERE email='${args.email}'`;
-                    const values = value[0];
+                    await updateUser(args)
+                    const skills = args.skills;
+                    if (args.skills !=null) {
+                        const id = await getID(args.email);
+                        await updateSkills(skills,id);
+                    }
+                    const query = `SELECT * FROM users WHERE email=$1`;
+                    const values = [args.email];
                     return db
-                        .none(query,values)
-                        .then(async function() {
-                            const skills = args.skills;
-                            if (args.skills !=null) {
-                                const id = await getID(args.email);
-                                await updateSkills(skills,id);
-    
-                            }
-                       })
-                        .then(async function() {
-                            const query = `SELECT * FROM users WHERE email=$1`;
-                            const values = [args.email];
-                            return db
-                                .one(query,values)
-                                .then(async (res) => {
-                                    const id = await getID(args.email);
-                                    res.skills = await getSkills(id);
-                                    return res;
-                                })
-                                .catch(err => console.log(err));
+                        .one(query,values)
+                        .then(async (res) => {
+                            const id = await getID(args.email);
+                            res.skills = await getSkills(id);
+                            return res;
                         })
                         .catch(err => console.log(err));
                 }
