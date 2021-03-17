@@ -211,3 +211,15 @@ it will return only those skills that satisfy these requirements. You are allowe
 - REST: /user Endpoint (Post Request)
 There are no parameters, but calling this will insert all the template data in the sql file. This is only used for development.
 
+## Docker
+For Docker, I set my config files so that I would be able to access port 5000.
+I was planning to dockerize my postgresql server as well, but I still managed to set up the server.
+
+# Conclusion
+
+Over these past few days, I learnt a lot about GraphQL - I think I like it _way_ more thank REST now! Thank you so
+much for creating this challenge, I really enjoyed it!
+
+Sincerely,
+
+Zhehai Zhang
