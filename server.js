@@ -1,3 +1,5 @@
+// Setting up server on port 8080
+
 const http = require('http')
 
 const app = require('./app')

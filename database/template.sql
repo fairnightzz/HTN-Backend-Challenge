@@ -26,7 +26,7 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.skills (
     skill_id integer NOT NULL,
-    name character varying(50),
+    name character varying(50) NOT NULL,
     description character varying(255)
 );
 

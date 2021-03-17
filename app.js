@@ -1,23 +1,18 @@
 const express = require('express')
 
-// For https
+// For https requests
 const cors = require('cors')
 
 // For debugging
 const morgan = require('morgan')
 
-// Graphql stuff
+// GraphQL imports
 
 const { graphqlHTTP } = require('express-graphql')
 const { GraphQLSchema } = require('graphql')
 
-// Schemas
-
+// Express
 const app = express()
-
-// Routes
-
-// const userRoutes = require('./routes/user');
 
 // Using apis
 
@@ -26,21 +21,27 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }))
 app.use(express.json())
 app.use(cors())
 
+// Query and Mutation Endpoints
 const { query } = require("./schemas/query")
 const { mutation } = require("./schemas/mutation")
 
+// Schemas
 const schema = new GraphQLSchema({
   query,
   mutation
 })
 
+// Initalize graphql route
 app.use(
   '/graphql',
   graphqlHTTP({
     schema,
-    graphiql: { headerEditorEnabled: true }
+    graphiql: { headerEditorEnabled: true } // Visual playthrough
   })
 )
-const userRoutes = require('./routes/user')
-app.use('/user', userRoutes)
+
+// For setting up the database - DO NOT UNCOMMENT FOR DEPLOYMENT
+// const userRoutes = require('./routes/user')
+// app.use('/user', userRoutes)
+
 module.exports = app

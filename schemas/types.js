@@ -1,6 +1,7 @@
 const graphql = require("graphql")
 const { GraphQLObjectType, GraphQLString, GraphQLList, GraphQLInt } = graphql
 
+// The skills output
 const skillType = new GraphQLObjectType({
   name: "skill",
   type: "Query",
@@ -10,6 +11,7 @@ const skillType = new GraphQLObjectType({
   }
 })
 
+// The skill frequency output
 const skillFreq = new GraphQLObjectType({
   name: "skillFreq",
   type: "Query",
@@ -19,6 +21,7 @@ const skillFreq = new GraphQLObjectType({
   }
 })
 
+// The user output
 const userType = new GraphQLObjectType({
   name: "user",
   type: "Query",
@@ -34,7 +37,8 @@ const userType = new GraphQLObjectType({
   }
 })
 
-// Consider using fragments
+// Consider using fragments due to duplicate code.
+// Not sure if I have to use another type, but it's good in case we need to extend
 const usersType = new GraphQLObjectType({
   name: "users",
   type: "Query",
