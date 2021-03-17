@@ -1,5 +1,6 @@
 # HTN-Backend-Challenge
 This is my backend challenge.
+Test it out [here](https://htn.zhehaizhang.com/graphql)
 
 This is my __first time__ making a graphQL server, so I will try to document my process,
 the challenges I encountered, and how I fixed them.
